@@ -33,5 +33,5 @@ jobs:
       - name: Run Docker container
         run: |
             # Run the container with multiple variables
-            docker run --rm download-basis-set \
+            docker run --rm download \
               ${{ matrix.basis }} ${{ matrix.format }} ${{ matrix.elements }}
