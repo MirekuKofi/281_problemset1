@@ -32,6 +32,18 @@ jobs:
 
       - name: Run Docker container
         run: |
-            # Run the container with multiple variables
-            docker run --rm download \
+            # Create a directory on the host for the downloaded file
+            mkdir -p /tmp/bse_data
+            
+            # Run the container with the mounted volume
+            docker run --rm -v /tmp/bse_data:/data download \
               ${{ matrix.basis }} ${{ matrix.format }} ${{ matrix.elements }}
+
+  manual_dispatch:
+   if: github.event_name == 'workflow_dispatch'
+   runs-on: ubuntu-latest
+   steps:
+    - name: Run Docker container from manual dispatch
+      run: |
+        docker run --rm download \
+         ${{ github.event.inputs.basis }} ${{ github.event.inputs.format }} ${{ github.event.inputs.elements }}
